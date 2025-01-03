@@ -12,7 +12,7 @@ pub const Food = struct {
         };
     }
 
-    pub fn uninit(self: *Food) void {
+    pub fn deinit(self: *Food) void {
         rl.unloadTexture(self.texture);
     }
 

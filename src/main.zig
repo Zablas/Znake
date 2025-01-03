@@ -11,13 +11,21 @@ pub fn main() !void {
     rl.setExitKey(rl.KeyboardKey.null);
 
     var food = entities.food.Food.init();
-    defer food.uninit();
+    defer food.deinit();
+
+    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    defer _ = gpa.deinit();
+    const allocator = gpa.allocator();
+
+    var snake = try entities.snake.Snake.init(allocator);
+    defer snake.deinit();
 
     while (!rl.windowShouldClose()) {
         rl.beginDrawing();
         defer rl.endDrawing();
 
         food.draw();
+        snake.draw();
 
         rl.clearBackground(constants.colors.green);
     }
