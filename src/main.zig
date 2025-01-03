@@ -10,10 +10,8 @@ pub fn main() !void {
     rl.setTargetFPS(60);
     rl.setExitKey(rl.KeyboardKey.null);
 
-    const food = entities.food.Food.init(rl.Vector2{
-        .x = 5,
-        .y = 6,
-    });
+    var food = entities.food.Food.init();
+    defer food.uninit();
 
     while (!rl.windowShouldClose()) {
         rl.beginDrawing();
