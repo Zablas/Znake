@@ -3,8 +3,8 @@ const rl = @import("raylib");
 const constants = @import("constants");
 const entities = @import("entities");
 
+const Game = entities.game.Game;
 const Snake = entities.snake.Snake;
-const Food = entities.food.Food;
 const grid_params = constants.grid_params;
 const colors = constants.colors;
 
@@ -19,15 +19,12 @@ pub fn main() !void {
     rl.setTargetFPS(60);
     rl.setExitKey(rl.KeyboardKey.null);
 
-    var food = Food.init();
-    defer food.deinit();
-
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     defer _ = gpa.deinit();
     const allocator = gpa.allocator();
 
-    var snake = try Snake.init(allocator);
-    defer snake.deinit();
+    var game: Game = try Game.init(allocator);
+    defer game.deinit();
 
     var last_snake_update_time: f64 = rl.getTime();
 
@@ -35,13 +32,12 @@ pub fn main() !void {
         rl.beginDrawing();
         defer rl.endDrawing();
 
-        food.draw();
-        snake.draw();
+        game.draw();
 
-        handlePlayerInput(&snake);
+        handlePlayerInput(&game.snake);
 
         if (shouldSnakeMove(&last_snake_update_time, 0.2)) {
-            try snake.update();
+            try game.update();
         }
 
         rl.clearBackground(colors.green);
