@@ -11,6 +11,7 @@ pub const Game = struct {
     food: food.Food,
     snake: snake.Snake,
     is_running: bool = true,
+    score: i32 = 0,
 
     pub fn init(allocator: std.mem.Allocator) !Game {
         const init_snake = try snake.Snake.init(allocator);
@@ -43,6 +44,7 @@ pub const Game = struct {
         if (rl.math.vector2Equals(self.snake.deque.last.?.data, self.food.position) == 1) {
             self.food.position = food.Food.generateRandomPosition(self.snake.deque);
             self.snake.shouldAddSegment = true;
+            self.score += 1;
         }
     }
 
@@ -65,5 +67,6 @@ pub const Game = struct {
         self.snake = try snake.Snake.init(self.snake.allocator);
         self.food.position = food.Food.generateRandomPosition(self.snake.deque);
         self.is_running = false;
+        self.score = 0;
     }
 };

@@ -39,6 +39,13 @@ pub fn main() !void {
         };
         rl.drawRectangleLinesEx(border, grid_params.border_size, colors.dark_green);
         rl.drawText("Znake", grid_params.offset - 5, 20, 40, colors.dark_green);
+        rl.drawText(
+            rl.textFormat("%i", .{game.score}),
+            grid_params.offset - 5,
+            grid_params.offset + grid_params.cell_size * grid_params.cell_count + 10,
+            40,
+            colors.dark_green,
+        );
 
         game.draw();
         handlePlayerInput(&game);
