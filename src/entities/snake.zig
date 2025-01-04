@@ -9,6 +9,7 @@ pub const Snake = struct {
     deque: DoublyLinkedList,
     allocator: Allocator,
     direction: rl.Vector2 = rl.Vector2{ .x = 1, .y = 0 },
+    shouldAddSegment: bool = false,
 
     pub fn init(allocator: Allocator) !Snake {
         var snake = Snake{
@@ -62,14 +63,18 @@ pub const Snake = struct {
     }
 
     pub fn update(self: *Snake) !void {
-        const back = self.deque.popFirst();
-        if (back != null) {
-            self.allocator.destroy(back.?);
-        }
-
         const node = try self.allocator.create(DoublyLinkedList.Node);
         const front_data = rl.math.vector2Add(self.deque.last.?.data, self.direction);
         node.data = front_data;
         self.deque.append(node);
+
+        if (self.shouldAddSegment) {
+            self.shouldAddSegment = false;
+        } else {
+            const back = self.deque.popFirst();
+            if (back != null) {
+                self.allocator.destroy(back.?);
+            }
+        }
     }
 };

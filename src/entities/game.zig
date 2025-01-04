@@ -33,6 +33,7 @@ pub const Game = struct {
     pub fn checkSnakeCollisionWithFood(self: *Game) void {
         if (rl.math.vector2Equals(self.snake.deque.last.?.data, self.food.position) == 1) {
             self.food.position = food.Food.generateRandomPosition(self.snake.deque);
+            self.snake.shouldAddSegment = true;
         }
     }
 };
