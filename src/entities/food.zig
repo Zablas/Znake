@@ -1,3 +1,4 @@
+const std = @import("std");
 const rl = @import("raylib");
 const constants = @import("constants");
 
@@ -5,9 +6,9 @@ pub const Food = struct {
     position: rl.Vector2,
     texture: rl.Texture2D,
 
-    pub fn init() Food {
+    pub fn init(deque: std.DoublyLinkedList(rl.Vector2)) Food {
         return Food{
-            .position = generateRandomPosition(),
+            .position = generateRandomPosition(deque),
             .texture = rl.loadTexture("assets/textures/food.png"),
         };
     }
@@ -35,10 +36,33 @@ pub const Food = struct {
         }
     }
 
-    fn generateRandomPosition() rl.Vector2 {
+    pub fn generateRandomPosition(deque: std.DoublyLinkedList(rl.Vector2)) rl.Vector2 {
+        var position = generateRandomCell();
+
+        while (isElementInDeque(position, deque)) {
+            position = generateRandomCell();
+        }
+
+        return position;
+    }
+
+    fn generateRandomCell() rl.Vector2 {
         return rl.Vector2{
             .x = @floatFromInt(rl.getRandomValue(0, constants.grid_params.cell_count - 1)),
             .y = @floatFromInt(rl.getRandomValue(0, constants.grid_params.cell_count - 1)),
         };
+    }
+
+    fn isElementInDeque(element: rl.Vector2, deque: std.DoublyLinkedList(rl.Vector2)) bool {
+        var curr = deque.first;
+
+        while (curr != null) {
+            if (rl.math.vector2Equals(element, curr.?.data) == 1) {
+                return true;
+            }
+            curr = curr.?.next;
+        }
+
+        return false;
     }
 };

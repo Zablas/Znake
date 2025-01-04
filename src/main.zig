@@ -23,10 +23,10 @@ pub fn main() !void {
     defer _ = gpa.deinit();
     const allocator = gpa.allocator();
 
-    var game: Game = try Game.init(allocator);
+    var game = try Game.init(allocator);
     defer game.deinit();
 
-    var last_snake_update_time: f64 = rl.getTime();
+    var last_snake_update_time = rl.getTime();
 
     while (!rl.windowShouldClose()) {
         rl.beginDrawing();
