@@ -38,6 +38,7 @@ pub fn main() !void {
             .height = @floatFromInt(2 * grid_params.border_size + grid_params.cell_count * grid_params.cell_size),
         };
         rl.drawRectangleLinesEx(border, grid_params.border_size, colors.dark_green);
+
         rl.drawText("Znake", grid_params.offset - 5, 20, 40, colors.dark_green);
         rl.drawText(
             rl.textFormat("%i", .{game.score}),
@@ -69,20 +70,28 @@ fn shouldSnakeMove(prev_time: *f64, interval: f64) bool {
 }
 
 fn handlePlayerInput(game: *Game) void {
+    if (game.was_input_registered) {
+        return;
+    }
+
     if (rl.isKeyPressed(rl.KeyboardKey.w) and game.snake.direction.y != 1) {
         game.snake.direction = rl.Vector2{ .x = 0, .y = -1 };
         game.is_running = true;
+        game.was_input_registered = true;
     }
     if (rl.isKeyPressed(rl.KeyboardKey.s) and game.snake.direction.y != -1) {
         game.snake.direction = rl.Vector2{ .x = 0, .y = 1 };
         game.is_running = true;
+        game.was_input_registered = true;
     }
     if (rl.isKeyPressed(rl.KeyboardKey.a) and game.snake.direction.x != 1) {
         game.snake.direction = rl.Vector2{ .x = -1, .y = 0 };
         game.is_running = true;
+        game.was_input_registered = true;
     }
     if (rl.isKeyPressed(rl.KeyboardKey.d) and game.snake.direction.x != -1) {
         game.snake.direction = rl.Vector2{ .x = 1, .y = 0 };
         game.is_running = true;
+        game.was_input_registered = true;
     }
 }

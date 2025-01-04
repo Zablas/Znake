@@ -14,6 +14,7 @@ pub const Game = struct {
     wall_sound: rl.Sound,
     is_running: bool = true,
     score: i32 = 0,
+    was_input_registered: bool = false,
 
     pub fn init(allocator: std.mem.Allocator) !Game {
         rl.initAudioDevice();
@@ -47,6 +48,7 @@ pub const Game = struct {
             self.checkSnakeCollisionWithFood();
             try self.checkCollisionWithEdges();
             try self.checkCollisionWithTail();
+            self.was_input_registered = false;
         }
     }
 
