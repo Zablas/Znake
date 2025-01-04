@@ -10,20 +10,30 @@ const grid_params = constants.grid_params;
 pub const Game = struct {
     food: food.Food,
     snake: snake.Snake,
+    eat_sound: rl.Sound,
+    wall_sound: rl.Sound,
     is_running: bool = true,
     score: i32 = 0,
 
     pub fn init(allocator: std.mem.Allocator) !Game {
+        rl.initAudioDevice();
+
         const init_snake = try snake.Snake.init(allocator);
         return Game{
             .food = food.Food.init(init_snake.deque),
             .snake = init_snake,
+            .eat_sound = rl.loadSound("assets/audio/eat.mp3"),
+            .wall_sound = rl.loadSound("assets/audio/wall.mp3"),
         };
     }
 
     pub fn deinit(self: *Game) void {
         self.food.deinit();
         self.snake.deinit();
+
+        rl.unloadSound(self.eat_sound);
+        rl.unloadSound(self.wall_sound);
+        rl.closeAudioDevice();
     }
 
     pub fn draw(self: Game) void {
@@ -45,6 +55,7 @@ pub const Game = struct {
             self.food.position = food.Food.generateRandomPosition(self.snake.deque);
             self.snake.shouldAddSegment = true;
             self.score += 1;
+            rl.playSound(self.eat_sound);
         }
     }
 
@@ -68,5 +79,6 @@ pub const Game = struct {
         self.food.position = food.Food.generateRandomPosition(self.snake.deque);
         self.is_running = false;
         self.score = 0;
+        rl.playSound(self.wall_sound);
     }
 };
