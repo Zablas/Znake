@@ -9,8 +9,8 @@ const colors = constants.colors;
 
 pub fn main() !void {
     rl.initWindow(
-        grid_params.cell_count * grid_params.cell_size,
-        grid_params.cell_count * grid_params.cell_size,
+        2 * grid_params.offset + grid_params.cell_count * grid_params.cell_size,
+        2 * grid_params.offset + grid_params.cell_count * grid_params.cell_size,
         "Znake",
     );
     defer rl.closeWindow();
@@ -30,6 +30,15 @@ pub fn main() !void {
     while (!rl.windowShouldClose()) {
         rl.beginDrawing();
         defer rl.endDrawing();
+
+        const border = rl.Rectangle{
+            .x = @floatFromInt(grid_params.offset - grid_params.border_size),
+            .y = @floatFromInt(grid_params.offset - grid_params.border_size),
+            .width = @floatFromInt(2 * grid_params.border_size + grid_params.cell_count * grid_params.cell_size),
+            .height = @floatFromInt(2 * grid_params.border_size + grid_params.cell_count * grid_params.cell_size),
+        };
+        rl.drawRectangleLinesEx(border, grid_params.border_size, colors.dark_green);
+        rl.drawText("Znake", grid_params.offset - 5, 20, 40, colors.dark_green);
 
         game.draw();
         handlePlayerInput(&game);

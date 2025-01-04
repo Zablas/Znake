@@ -22,14 +22,14 @@ pub const Food = struct {
         if (self.texture.id > 0) {
             rl.drawTexture(
                 self.texture,
-                @intFromFloat(self.position.x * constants.grid_params.cell_size),
-                @intFromFloat(self.position.y * constants.grid_params.cell_size),
+                @intFromFloat(constants.grid_params.offset + self.position.x * constants.grid_params.cell_size),
+                @intFromFloat(constants.grid_params.offset + self.position.y * constants.grid_params.cell_size),
                 rl.Color.white,
             );
         } else {
             rl.drawRectangle(
-                @intFromFloat(self.position.x * constants.grid_params.cell_size),
-                @intFromFloat(self.position.y * constants.grid_params.cell_size),
+                @intFromFloat(constants.grid_params.offset + self.position.x * constants.grid_params.cell_size),
+                @intFromFloat(constants.grid_params.offset + self.position.y * constants.grid_params.cell_size),
                 constants.grid_params.cell_size,
                 constants.grid_params.cell_size,
                 constants.colors.dark_green,

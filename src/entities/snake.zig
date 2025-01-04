@@ -51,8 +51,8 @@ pub const Snake = struct {
         var curr = self.deque.first;
         while (curr != null) {
             const rectangle = rl.Rectangle{
-                .x = curr.?.data.x * constants.grid_params.cell_size,
-                .y = curr.?.data.y * constants.grid_params.cell_size,
+                .x = constants.grid_params.offset + curr.?.data.x * constants.grid_params.cell_size,
+                .y = constants.grid_params.offset + curr.?.data.y * constants.grid_params.cell_size,
                 .height = constants.grid_params.cell_size,
                 .width = constants.grid_params.cell_size,
             };
