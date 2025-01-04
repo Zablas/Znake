@@ -1,7 +1,7 @@
 const std = @import("std");
 const rl = @import("raylib");
-pub const food = @import("food.zig");
-pub const snake = @import("snake.zig");
+const food = @import("food.zig");
+const snake = @import("snake.zig");
 
 pub const Game = struct {
     food: food.Food,
