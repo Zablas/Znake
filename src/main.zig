@@ -4,7 +4,6 @@ const constants = @import("constants");
 const entities = @import("entities");
 
 const Game = entities.game.Game;
-const Snake = entities.snake.Snake;
 const grid_params = constants.grid_params;
 const colors = constants.colors;
 
@@ -33,8 +32,7 @@ pub fn main() !void {
         defer rl.endDrawing();
 
         game.draw();
-
-        handlePlayerInput(&game.snake);
+        handlePlayerInput(&game);
 
         if (shouldSnakeMove(&last_snake_update_time, 0.2)) {
             try game.update();
@@ -54,17 +52,21 @@ fn shouldSnakeMove(prev_time: *f64, interval: f64) bool {
     return false;
 }
 
-fn handlePlayerInput(snake: *Snake) void {
-    if (rl.isKeyPressed(rl.KeyboardKey.w) and snake.direction.y != 1) {
-        snake.direction = rl.Vector2{ .x = 0, .y = -1 };
+fn handlePlayerInput(game: *Game) void {
+    if (rl.isKeyPressed(rl.KeyboardKey.w) and game.snake.direction.y != 1) {
+        game.snake.direction = rl.Vector2{ .x = 0, .y = -1 };
+        game.is_running = true;
     }
-    if (rl.isKeyPressed(rl.KeyboardKey.s) and snake.direction.y != -1) {
-        snake.direction = rl.Vector2{ .x = 0, .y = 1 };
+    if (rl.isKeyPressed(rl.KeyboardKey.s) and game.snake.direction.y != -1) {
+        game.snake.direction = rl.Vector2{ .x = 0, .y = 1 };
+        game.is_running = true;
     }
-    if (rl.isKeyPressed(rl.KeyboardKey.a) and snake.direction.x != 1) {
-        snake.direction = rl.Vector2{ .x = -1, .y = 0 };
+    if (rl.isKeyPressed(rl.KeyboardKey.a) and game.snake.direction.x != 1) {
+        game.snake.direction = rl.Vector2{ .x = -1, .y = 0 };
+        game.is_running = true;
     }
-    if (rl.isKeyPressed(rl.KeyboardKey.d) and snake.direction.x != -1) {
-        snake.direction = rl.Vector2{ .x = 1, .y = 0 };
+    if (rl.isKeyPressed(rl.KeyboardKey.d) and game.snake.direction.x != -1) {
+        game.snake.direction = rl.Vector2{ .x = 1, .y = 0 };
+        game.is_running = true;
     }
 }
