@@ -74,22 +74,22 @@ fn handlePlayerInput(game: *Game) void {
         return;
     }
 
-    if (rl.isKeyPressed(rl.KeyboardKey.w) and game.snake.direction.y != 1) {
+    if ((rl.isKeyPressed(rl.KeyboardKey.w) or rl.isKeyPressed(rl.KeyboardKey.up)) and game.snake.direction.y != 1) {
         game.snake.direction = rl.Vector2{ .x = 0, .y = -1 };
         game.is_running = true;
         game.was_input_registered = true;
     }
-    if (rl.isKeyPressed(rl.KeyboardKey.s) and game.snake.direction.y != -1) {
+    if ((rl.isKeyPressed(rl.KeyboardKey.s) or rl.isKeyPressed(rl.KeyboardKey.down)) and game.snake.direction.y != -1) {
         game.snake.direction = rl.Vector2{ .x = 0, .y = 1 };
         game.is_running = true;
         game.was_input_registered = true;
     }
-    if (rl.isKeyPressed(rl.KeyboardKey.a) and game.snake.direction.x != 1) {
+    if ((rl.isKeyPressed(rl.KeyboardKey.a) or rl.isKeyPressed(rl.KeyboardKey.left)) and game.snake.direction.x != 1) {
         game.snake.direction = rl.Vector2{ .x = -1, .y = 0 };
         game.is_running = true;
         game.was_input_registered = true;
     }
-    if (rl.isKeyPressed(rl.KeyboardKey.d) and game.snake.direction.x != -1) {
+    if ((rl.isKeyPressed(rl.KeyboardKey.d) or rl.isKeyPressed(rl.KeyboardKey.right)) and game.snake.direction.x != -1) {
         game.snake.direction = rl.Vector2{ .x = 1, .y = 0 };
         game.is_running = true;
         game.was_input_registered = true;
